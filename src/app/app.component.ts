@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { DataService } from './data.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 
 @Component({
   selector: 'app-root',
@@ -9,17 +10,26 @@ import { DataService } from './data.service';
 export class AppComponent {
   title = 'ng-bank';
   bankList: object[];
+  bankSearch: FormGroup;
+  searched = false;
 
-  constructor (private data: DataService) {}
+  constructor (private data: DataService, private formBuilder: FormBuilder) {}
 
-  ngOnInit () {
+  ngOnInit() {
+    this.bankSearch = this.formBuilder.group({
+      name: [''],
+      ifsc: ['']
+    });
+  }
+
+  searchBank () {
+    this.searched = true;
     this.data.searchBankList({
       city: [],
-      IFSC: ['ABHY0065101', 'ALLA0210159'],
-      name: 'AL'
+      IFSC: this.bankSearch.controls.ifsc.value.replace(/\s/ig, '').split(',').filter(elem => elem !== '').map(elem => elem.toUpperCase()),
+      name: this.bankSearch.controls.name.value
     }, data => {
       this.bankList = data;
-      console.log(data);
     })
   }
 

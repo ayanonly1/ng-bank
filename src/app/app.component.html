@@ -4,9 +4,26 @@
   </div>
 </Header>
 
+<form [formGroup]="bankSearch" (ngSubmit)="searchBank()">
+  <div>
+    <label>
+      Bank Name:
+      <input type="text" formControlName="name">
+    </label>
+  </div>
+ <div>
+    <label>
+      IFSC code:
+      <input type="text" formControlName="ifsc">
+      ** Use ',' as a separator to search multiple IFSC code
+    </label>
+ </div>
 
+  <input type="submit" value="Search">
 
-<div *ngIf="bankList">
+</form>
+
+<div *ngIf="bankList && bankList.length">
   <h3>List of Banks</h3>
   <ul>
     <li>
@@ -20,4 +37,8 @@
       <span>{{ bank.city }}</span>
     </li>
   </ul>
+</div>
+
+<div *ngIf="(!bankList || !bankList.length) && searched">
+  No bank found!!
 </div>
