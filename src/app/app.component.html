@@ -6,20 +6,27 @@
 
 <form [formGroup]="bankSearch" (ngSubmit)="searchBank()">
   <div>
-    <label>
-      Bank Name:
-      <input type="text" formControlName="name">
-    </label>
+    <mat-form-field >
+      <input matInput placeholder="Bank Name:" formControlName="name">
+    </mat-form-field>
   </div>
- <div>
-    <label>
-      IFSC code:
-      <input type="text" formControlName="ifsc">
-      ** Use ',' as a separator to search multiple IFSC code
-    </label>
- </div>
-
-  <input type="submit" value="Search">
+  <div>
+      <mat-form-field >
+        <input matInput placeholder="IFSC code:" formControlName="ifsc">
+        <mat-hint>** Use ',' as a separator to search multiple IFSC code</mat-hint>
+      </mat-form-field>
+   </div>
+   <div>
+      <mat-form-field>
+        <mat-label>City:</mat-label>
+        <mat-select formControlName="city" multiple>
+          <mat-option *ngFor="let city of cities" [value]="city">
+              {{city}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+   </div>
+  <button mat-raised-button type="submit" >Search</button>
 
 </form>
 
