@@ -3,49 +3,92 @@
     Fyle: Coding challenge
   </div>
 </Header>
-
-<form [formGroup]="bankSearch" (ngSubmit)="searchBank()">
-  <div>
-    <mat-form-field >
-      <input matInput placeholder="Bank Name:" formControlName="name">
-    </mat-form-field>
-  </div>
-  <div>
+<div>
+  <form [formGroup]="bankSearch" (ngSubmit)="searchBank()">
+    <div>
       <mat-form-field >
-        <input matInput placeholder="IFSC code:" formControlName="ifsc">
-        <mat-hint>** Use ',' as a separator to search multiple IFSC code</mat-hint>
+        <input matInput placeholder="Bank Name:" formControlName="name">
       </mat-form-field>
-   </div>
-   <div>
-      <mat-form-field>
-        <mat-label>City:</mat-label>
-        <mat-select formControlName="city" multiple>
-          <mat-option *ngFor="let city of cities" [value]="city">
-              {{city}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-   </div>
-  <button mat-raised-button type="submit" >Search</button>
+    </div>
+    <div>
+        <mat-form-field >
+          <input matInput placeholder="IFSC code:" formControlName="ifsc">
+          <mat-hint>** Use ',' as a separator to search multiple IFSC code</mat-hint>
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field>
+          <mat-label>City:</mat-label>
+          <mat-select formControlName="city" multiple>
+            <mat-option *ngFor="let city of cities" [value]="city">
+                {{city}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+    </div>
+    <button mat-raised-button type="submit" >Search</button>
 
-</form>
-
-<div *ngIf="bankList && bankList.length">
-  <h3>List of Banks</h3>
-  <ul>
-    <li>
-        <span>IFSC</span>
-        <span>Bank Name</span>
-        <span>City</span>
-    </li>
-    <li *ngFor="let bank of bankList">
-      <span>{{ bank.ifsc }}</span>
-      <span>{{ bank.bank_name }}</span>
-      <span>{{ bank.city }}</span>
-    </li>
-  </ul>
+  </form>
 </div>
 
-<div *ngIf="(!bankList || !bankList.length) && searched">
-  No bank found!!
+<div [hidden] = "!bankList.data.length">
+  <table mat-table [dataSource]="bankList" >
+    
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Bank Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.bank_name}} </td>
+    </ng-container>
+  
+    <!-- City Column -->
+    <ng-container matColumnDef="city">
+      <th mat-header-cell *matHeaderCellDef> City </th>
+      <td mat-cell *matCellDef="let element"> {{element.city}} </td>
+    </ng-container>
+  
+    <!-- ifsc Column -->
+    <ng-container matColumnDef="ifsc">
+      <th mat-header-cell *matHeaderCellDef> IFSC </th>
+      <td mat-cell *matCellDef="let element"> {{element.ifsc}} </td>
+    </ng-container>
+
+
+    <ng-container matColumnDef="expandedDetail">
+      <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+        <div class="example-element-detail"
+              [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+          <div class="example-element-description">
+            Bank Id: 
+            <span class="example-element-description-attribution">{{element.bank_id}}</span>
+          </div>
+          <div class="example-element-description">
+            Branch: 
+            <span class="example-element-description-attribution">{{element.branch}}</span>
+          </div>
+          <div class="example-element-description">
+            Address: 
+            <span class="example-element-description-attribution">{{element.address}}</span>
+          </div>
+          <div class="example-element-description">
+            District: 
+            <span class="example-element-description-attribution">{{element.district}}</span>
+          </div>
+          <div class="example-element-description">
+            State: 
+            <span class="example-element-description-attribution">{{element.state}}</span>
+          </div>
+        </div>
+      </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="example-element-row"
+    [class.example-expanded-row]="expandedElement === element"
+    (click)="expandedElement = expandedElement === element ? null : element"></tr>
+  </table>
+  <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
+</div>
+<div *ngIf="searching" >
+    <h2 class="example-h2">Searching...</h2>
+    <mat-spinner></mat-spinner>
 </div>

@@ -4,7 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatFormFieldModule, MatSelectModule, MatInputModule, MatButtonModule } from '@angular/material';
+import {MatFormFieldModule, MatSelectModule, MatInputModule, MatButtonModule, MatTableModule, MatPaginatorModule, MatDividerModule, MatProgressSpinnerModule, MatCardModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -18,6 +18,11 @@ import {MatFormFieldModule, MatSelectModule, MatInputModule, MatButtonModule } f
     MatSelectModule,
     MatInputModule,
     MatButtonModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatDividerModule,
+    MatProgressSpinnerModule,
+    MatCardModule,
     ReactiveFormsModule,
     BrowserAnimationsModule
   ],
