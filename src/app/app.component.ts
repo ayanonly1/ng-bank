@@ -16,6 +16,7 @@ export class AppComponent {
   searching = false;
   cities: string[] = ['BANGALORE', 'MUMBAI', 'KOLKATA', 'PUNE', 'DELHI'];
   displayedColumns: string[] = ['name', 'city', 'ifsc'];
+  expandedElement: any;
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
